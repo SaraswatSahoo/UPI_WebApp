@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const z = require("zod");
 const bcrypt = require("bcrypt");
-const UserModel = require("../db");
+const { UserModel, AccountModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const AuthMiddleware = require("../middleware/AuthMiddleware");
 
@@ -32,10 +32,17 @@ router.post("/signup", async ( req, res ) => {
                 password: hashedPassword,
             });
 
-            const id = user._id
+            const id = user._id;
+            const token = jwt.sign( { id }, process.env.JWT_SECRET );
+            
+            await AccountModel.create({
+                userId: id,
+                balance: 1 + Math.random() * 10000
+            })
 
             res.status(200).json({
-                message: "User Created Successfully"
+                message: "User Created Successfully",
+                token
             })
 
         } else {
@@ -77,10 +84,10 @@ router.post("/signin", async ( req, res ) => {
             if( verifyPassword ){
 
                 const token = jwt.sign( { id }, process.env.JWT_SECRET );
-                res.cookie("token", token);
-                
+
                 res.status(200).json({
-                    message: "User Logged In"
+                    message: "User Logged In",
+                    token
                 })
 
             } else {
@@ -138,6 +145,8 @@ router.put("/", AuthMiddleware, async ( req, res ) => {
 })
 
 router.get("/bulk", AuthMiddleware, async( req, res ) => {
+
+    console.log("Cookies received:", req.cookies);
     
     const filter = req.query.filter || "";
 

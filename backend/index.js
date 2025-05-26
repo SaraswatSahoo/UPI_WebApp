@@ -3,16 +3,16 @@ dotenv.config();
 const express = require("express");
 const { default: mongoose, connect } = require("mongoose");
 const userRouter = require("./routes/user.routes");
+const accountRouter = require("./routes/account.routes");
 const cors = require("cors");
-const cookieParsesr = require("cookie-parser");
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(cookieParsesr());
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/account", accountRouter);
 
 
 async function RunServer(){

@@ -1,6 +1,8 @@
 import React from 'react'
 
 export default function Appbar() {
+
+  
   return (
     <div className=' flex justify-between items-center h-[70px] w-full border-b-2 border-gray-300 pb-[20px] px-[30px]'>
       <div className=' text-[35px] font-extrabold'>

@@ -145,8 +145,6 @@ router.put("/", AuthMiddleware, async ( req, res ) => {
 })
 
 router.get("/bulk", AuthMiddleware, async( req, res ) => {
-
-    console.log("Cookies received:", req.cookies);
     
     const filter = req.query.filter || "";
 

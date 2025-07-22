@@ -15,7 +15,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   async function SignUpRequest(){
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/user/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/user/signup`, {
         firstname,
         lastname,
         email,
